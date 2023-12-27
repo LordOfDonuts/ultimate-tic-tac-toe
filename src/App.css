@@ -1,4 +1,5 @@
 h1 {
+  color: var(--primary-black-color);
   text-align: center;
   margin: 1rem 0;
 }
@@ -22,21 +23,30 @@ h1 {
   font-size: 1.5rem;
   font-weight: 700;
   flex: 1;
+  transition: border-bottom 0.25s ease-out;
 }
 
 .x-side {
-  border-bottom: var(--primary-red-color) 4px solid;
+  border-bottom: transparent 4px solid;
   padding: 0.65rem 3rem 0.65rem 1.25rem;
   color: var(--primary-red-color);
   background-color: rgba(239, 64, 64, 0.1);
 }
 
+.x-side.active-side {
+  border-bottom: var(--primary-red-color) 4px solid;
+}
+
 .o-side {
-  border-bottom: var(--primary-blue-color) 4px solid;
+  border-bottom: transparent 4px solid;
   padding: 0.65rem 1.25rem 0.65rem 3rem;
   color: var(--primary-blue-color);
-  background-color: rgba(53,89,224, 0.1);
+  background-color: rgba(53, 89, 224, 0.1);
   text-align: right;
+}
+
+.o-side.active-side {
+  border-bottom: var(--primary-blue-color) 4px solid;
 }
 
 .general-grid {
@@ -54,8 +64,9 @@ h1 {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   gap: 0.25rem;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.1);
   border-radius: 0.25rem;
+  position: relative;
 }
 
 .item {
@@ -71,4 +82,68 @@ h1 {
 
 .item:hover {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.turn-on-board {
+  font-size: 1.75rem;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.x-on-board {
+  color: var(--primary-red-color);
+}
+
+.circle-on-board {
+  font-size: 2.4rem;
+  color: var(--primary-blue-color);
+}
+
+.x-grid,
+.circle-grid {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+.x-grid {
+  color: var(--primary-red-color);
+}
+
+.circle-grid {
+  color: var(--primary-blue-color);
+  font-size: 5.25rem;
+}
+
+.play-again-container {
+  display: flex;
+  justify-content: center;
+}
+
+.play-again-btn {
+  margin-top: 1rem;
+  color: var(--primary-black-color);
+  background-color: var(--primary-white-color);
+  border: 3px var(--primary-black-color) solid;
+  border-radius: 1rem;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.15s ease;
+}
+
+.play-again-btn:active {
+  transform: scale(0.98);
+}
+
+.play-again-btn:hover {
+  color: var(--primary-white-color);
+  background-color: var(--primary-black-color);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
 }
