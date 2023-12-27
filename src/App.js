@@ -1,24 +1,43 @@
-import logo from './logo.svg';
 import './App.css';
 
+import React, { useState } from 'react';
+
 function App() {
+  const [turns, setTurns] = useState([
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+  ]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>Ultimate Tic-Tac-Toe</h1>
+      <div className='game-container'>
+        <div>
+          <div className='score'>
+            <div className='score-side x-side'>X: {3}</div>
+            <div className='score-side o-side'>O: {3}</div>
+          </div>
+          <div className='general-grid'>
+            {turns.map((smallGrid, smallGridIndex) => {
+              return (
+                <div key={smallGridIndex} className='small-grid'>
+                  {smallGrid.map((item, itemIndex) => {
+                    return <div key={itemIndex} className='item'></div>;
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
