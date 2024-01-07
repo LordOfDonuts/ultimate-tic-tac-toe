@@ -10,7 +10,7 @@ const SmallGridItems = ({ grid, gridIndex, setTurn }) => {
         return (
           <div
             key={gridItemIndex}
-            className='item'
+            className='small-grid-cell'
             onClick={() => setTurn(gridIndex, gridItemIndex)}
           >
             {gridItem === 'cross' ? <SmallGridCross /> : ''}

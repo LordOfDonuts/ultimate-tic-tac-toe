@@ -1,7 +1,9 @@
 import './App.css';
 
 import React, { useState } from 'react';
+import JSConfetti from 'js-confetti';
 
+import Rules from './components/Rules/Rules';
 import Score from './components/Score';
 import SmallGridItems from './components/SmallGridItems';
 import BigGridCross from './components/BigGridCross';
@@ -21,105 +23,182 @@ function App() {
     [null, null, null, null, null, null, null, null, null],
   ];
 
+  const startBigGridValues = [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  ];
+
   const [smallGridValues, setSmallGridValues] = useState(startSmallGridValues);
-  const [bigGridValues, setBigGridValues] = useState([
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-  ]);
+  const [bigGridValues, setBigGridValues] = useState(startBigGridValues);
 
   const [isCrossTurn, setIsCrossTurn] = useState(true);
+
   const [crossScore, setCrossScore] = useState(0);
   const [circleScore, setCircleScore] = useState(0);
 
-  const winSmallGrid = (gridIndex, sign) => {
-    const newBigItems = bigGridValues;
-    newBigItems[gridIndex] = sign;
+  const win = (sign) => {
+    const jsConfetti = new JSConfetti();
+    const confettiColor =
+      sign === 'cross' ? 'rgb(239,64,64)' : 'rgb(53,89,224)';
+    jsConfetti.addConfetti({
+      confettiColors: [confettiColor],
+      confettiRadius: 6,
+      confettiNumber: 500,
+    });
 
-    if (sign === 'x') setCrossScore(crossScore + 1);
-    if (sign === 'o') setCircleScore(circleScore + 1);
-
-    setBigGridValues(newBigItems);
-  };
-
-  const checkSmallGrid = (gridIndex) => {
-    if (
-      smallGridValues[gridIndex][0] !== null &&
-      smallGridValues[gridIndex][0] === smallGridValues[gridIndex][1] &&
-      smallGridValues[gridIndex][1] === smallGridValues[gridIndex][2]
-    ) {
-      winSmallGrid(gridIndex, smallGridValues[gridIndex][0]);
-    } else if (
-      smallGridValues[gridIndex][0] != null &&
-      smallGridValues[gridIndex][0] === smallGridValues[gridIndex][3] &&
-      smallGridValues[gridIndex][3] === smallGridValues[gridIndex][6]
-    ) {
-      winSmallGrid(gridIndex, smallGridValues[gridIndex][0]);
-    } else if (
-      smallGridValues[gridIndex][1] !== null &&
-      smallGridValues[gridIndex][1] === smallGridValues[gridIndex][4] &&
-      smallGridValues[gridIndex][4] === smallGridValues[gridIndex][7]
-    ) {
-      winSmallGrid(gridIndex, smallGridValues[gridIndex][1]);
-    } else if (
-      smallGridValues[gridIndex][2] !== null &&
-      smallGridValues[gridIndex][2] === smallGridValues[gridIndex][5] &&
-      smallGridValues[gridIndex][5] === smallGridValues[gridIndex][8]
-    ) {
-      winSmallGrid(gridIndex, smallGridValues[gridIndex][2]);
-    } else if (
-      smallGridValues[gridIndex][3] !== null &&
-      smallGridValues[gridIndex][3] === smallGridValues[gridIndex][4] &&
-      smallGridValues[gridIndex][4] === smallGridValues[gridIndex][5]
-    ) {
-      winSmallGrid(gridIndex, smallGridValues[gridIndex][3]);
-    } else if (
-      smallGridValues[gridIndex][6] !== null &&
-      smallGridValues[gridIndex][6] === smallGridValues[gridIndex][7] &&
-      smallGridValues[gridIndex][7] === smallGridValues[gridIndex][8]
-    ) {
-      winSmallGrid(gridIndex, smallGridValues[gridIndex][6]);
-    } else if (
-      smallGridValues[gridIndex][0] !== null &&
-      smallGridValues[gridIndex][0] === smallGridValues[gridIndex][4] &&
-      smallGridValues[gridIndex][4] === smallGridValues[gridIndex][8]
-    ) {
-      winSmallGrid(gridIndex, smallGridValues[gridIndex][0]);
-    } else if (
-      smallGridValues[gridIndex][2] !== null &&
-      smallGridValues[gridIndex][2] === smallGridValues[gridIndex][4] &&
-      smallGridValues[gridIndex][4] === smallGridValues[gridIndex][6]
-    ) {
-      winSmallGrid(gridIndex, smallGridValues[gridIndex][2]);
+    if (sign === 'cross') {
+      setCrossScore(crossScore + 3);
+    } else {
+      setCircleScore(circleScore + 3);
     }
   };
 
-  const setTurn = (gridIndex, itemIndex) => {
+  const checkBigGrid = () => {
+    if (
+      bigGridValues[0] !== null &&
+      bigGridValues[0] === bigGridValues[1] &&
+      bigGridValues[1] === bigGridValues[2]
+    ) {
+      win(bigGridValues[0]);
+    } else if (
+      bigGridValues[0] != null &&
+      bigGridValues[0] === bigGridValues[3] &&
+      bigGridValues[3] === bigGridValues[6]
+    ) {
+      win(bigGridValues[0]);
+    } else if (
+      bigGridValues[1] !== null &&
+      bigGridValues[1] === bigGridValues[4] &&
+      bigGridValues[4] === bigGridValues[7]
+    ) {
+      win(bigGridValues[1]);
+    } else if (
+      bigGridValues[2] !== null &&
+      bigGridValues[2] === bigGridValues[5] &&
+      bigGridValues[5] === bigGridValues[8]
+    ) {
+      win(bigGridValues[2]);
+    } else if (
+      bigGridValues[3] !== null &&
+      bigGridValues[3] === bigGridValues[4] &&
+      bigGridValues[4] === bigGridValues[5]
+    ) {
+      win(bigGridValues[3]);
+    } else if (
+      bigGridValues[6] !== null &&
+      bigGridValues[6] === bigGridValues[7] &&
+      bigGridValues[7] === bigGridValues[8]
+    ) {
+      win(bigGridValues[6]);
+    } else if (
+      bigGridValues[0] !== null &&
+      bigGridValues[0] === bigGridValues[4] &&
+      bigGridValues[4] === bigGridValues[8]
+    ) {
+      win(bigGridValues[0]);
+    } else if (
+      bigGridValues[2] !== null &&
+      bigGridValues[2] === bigGridValues[4] &&
+      bigGridValues[4] === bigGridValues[6]
+    ) {
+      win(bigGridValues[2]);
+    }
+  };
+
+  const changeBigGridValue = (gridIndex, sign) => {
+    const newBigGridValues = bigGridValues;
+    newBigGridValues[gridIndex] = sign;
+
+    if (sign === 'cross') setCrossScore(crossScore + 1);
+    if (sign === 'circle') setCircleScore(circleScore + 1);
+
+    setBigGridValues(newBigGridValues);
+
+    checkBigGrid();
+  };
+
+  const checkSmallGrid = (gridIndex) => {
+    const currentGridValues = smallGridValues[gridIndex];
+
+    if (
+      currentGridValues[0] !== null &&
+      currentGridValues[0] === currentGridValues[1] &&
+      currentGridValues[1] === currentGridValues[2]
+    ) {
+      changeBigGridValue(gridIndex, currentGridValues[0]);
+    } else if (
+      currentGridValues[0] != null &&
+      currentGridValues[0] === currentGridValues[3] &&
+      currentGridValues[3] === currentGridValues[6]
+    ) {
+      changeBigGridValue(gridIndex, currentGridValues[0]);
+    } else if (
+      currentGridValues[1] !== null &&
+      currentGridValues[1] === currentGridValues[4] &&
+      currentGridValues[4] === currentGridValues[7]
+    ) {
+      changeBigGridValue(gridIndex, currentGridValues[1]);
+    } else if (
+      currentGridValues[2] !== null &&
+      currentGridValues[2] === currentGridValues[5] &&
+      currentGridValues[5] === currentGridValues[8]
+    ) {
+      changeBigGridValue(gridIndex, currentGridValues[2]);
+    } else if (
+      currentGridValues[3] !== null &&
+      currentGridValues[3] === currentGridValues[4] &&
+      currentGridValues[4] === currentGridValues[5]
+    ) {
+      changeBigGridValue(gridIndex, currentGridValues[3]);
+    } else if (
+      currentGridValues[6] !== null &&
+      currentGridValues[6] === currentGridValues[7] &&
+      currentGridValues[7] === currentGridValues[8]
+    ) {
+      changeBigGridValue(gridIndex, currentGridValues[6]);
+    } else if (
+      currentGridValues[0] !== null &&
+      currentGridValues[0] === currentGridValues[4] &&
+      currentGridValues[4] === currentGridValues[8]
+    ) {
+      changeBigGridValue(gridIndex, currentGridValues[0]);
+    } else if (
+      currentGridValues[2] !== null &&
+      currentGridValues[2] === currentGridValues[4] &&
+      currentGridValues[4] === currentGridValues[6]
+    ) {
+      changeBigGridValue(gridIndex, currentGridValues[2]);
+    }
+  };
+
+  const changeSmallGridValue = (gridIndex, itemIndex) => {
     if (smallGridValues[gridIndex][itemIndex] != null) return;
 
-    const newTurns = smallGridValues;
+    const newSmallGridValues = smallGridValues;
 
     if (isCrossTurn) {
-      newTurns[gridIndex][itemIndex] = 'cross';
+      newSmallGridValues[gridIndex][itemIndex] = 'cross';
       setIsCrossTurn(false);
     } else {
-      newTurns[gridIndex][itemIndex] = 'circle';
+      newSmallGridValues[gridIndex][itemIndex] = 'circle';
     }
 
     checkSmallGrid(gridIndex);
     setIsCrossTurn(!isCrossTurn);
-    setSmallGridValues(newTurns);
+    setSmallGridValues(newSmallGridValues);
   };
 
   const restartGame = () => {
     setSmallGridValues(startSmallGridValues);
-    setBigGridValues([null, null, null, null, null, null, null, null, null]);
+    setBigGridValues(startBigGridValues);
+
     setIsCrossTurn(true);
     setCircleScore(0);
     setCrossScore(0);
@@ -127,6 +206,7 @@ function App() {
 
   return (
     <>
+      <Rules />
       <h1 className='game-title'>Ultimate Tic-Tac-Toe</h1>
       <div className='game-container'>
         <div>
@@ -148,7 +228,7 @@ function App() {
                     <SmallGridItems
                       grid={grid}
                       gridIndex={gridIndex}
-                      setTurn={setTurn}
+                      setTurn={changeSmallGridValue}
                     />
                   )}
                   {bigGridValues[gridIndex] === 'cross' && <BigGridCross />}

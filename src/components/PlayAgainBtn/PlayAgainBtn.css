@@ -1,6 +1,8 @@
 .play-again-container {
-  display: flex;
-  justify-content: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1.5rem;
 }
 
 .play-again-btn {
