@@ -1,9 +1,9 @@
 import React from 'react';
 
-import XCell from './XCell';
-import CircleCell from './CircleCell';
+import SmallGridCross from './SmallGridCross';
+import SmallGridCircle from './SmallGridCircle';
 
-const SmallGridItems = ({grid, gridIndex, setTurn}) => {
+const SmallGridItems = ({ grid, gridIndex, setTurn }) => {
   return (
     <>
       {grid.map((gridItem, gridItemIndex) => {
@@ -13,8 +13,8 @@ const SmallGridItems = ({grid, gridIndex, setTurn}) => {
             className='item'
             onClick={() => setTurn(gridIndex, gridItemIndex)}
           >
-            {gridItem === 'x' ? <XCell /> : ''}
-            {gridItem === 'o' ? <CircleCell /> : ''}
+            {gridItem === 'cross' ? <SmallGridCross /> : ''}
+            {gridItem === 'circle' ? <SmallGridCircle /> : ''}
           </div>
         );
       })}

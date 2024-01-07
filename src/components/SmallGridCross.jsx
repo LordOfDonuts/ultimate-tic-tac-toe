@@ -1,6 +1,6 @@
 import { ImCross } from 'react-icons/im';
 
-function XCell() {
+function SmallGridCross() {
   return (
     <div className='turn-on-board x-on-board'>
       <ImCross/>
@@ -8,4 +8,4 @@ function XCell() {
   )
 }
 
-export default XCell
+export default SmallGridCross;

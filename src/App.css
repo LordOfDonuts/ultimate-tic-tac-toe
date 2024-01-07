@@ -1,4 +1,4 @@
-h1 {
+.game-title {
   color: var(--primary-black-color);
   text-align: center;
   margin: 1rem 0;
@@ -7,6 +7,7 @@ h1 {
 .game-container {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .score {
@@ -26,18 +27,18 @@ h1 {
   transition: border-bottom 0.25s ease-out;
 }
 
-.x-side {
+.cross-score-side {
   border-bottom: transparent 4px solid;
   padding: 0.65rem 3rem 0.65rem 1.25rem;
   color: var(--primary-red-color);
   background-color: rgba(239, 64, 64, 0.1);
 }
 
-.x-side.active-side {
+.cross-score-side.active-side {
   border-bottom: var(--primary-red-color) 4px solid;
 }
 
-.o-side {
+.circle-score-side {
   border-bottom: transparent 4px solid;
   padding: 0.65rem 1.25rem 0.65rem 3rem;
   color: var(--primary-blue-color);
@@ -45,11 +46,11 @@ h1 {
   text-align: right;
 }
 
-.o-side.active-side {
+.circle-score-side.active-side {
   border-bottom: var(--primary-blue-color) 4px solid;
 }
 
-.general-grid {
+.big-grid {
   display: grid;
   grid-template-columns: repeat(3, 18vh);
   grid-template-rows: repeat(3, 18vh);
@@ -81,7 +82,7 @@ h1 {
 }
 
 .item:hover {
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
 }
 
 .turn-on-board {
@@ -101,8 +102,8 @@ h1 {
   color: var(--primary-blue-color);
 }
 
-.x-grid,
-.circle-grid {
+.big-grid-cross,
+.big-grid-cirle {
   height: 100%;
   display: flex;
   align-items: center;
@@ -110,40 +111,11 @@ h1 {
   font-size: 4rem;
 }
 
-.x-grid {
+.big-grid-cross {
   color: var(--primary-red-color);
 }
 
-.circle-grid {
+.big-grid-cirle {
   color: var(--primary-blue-color);
   font-size: 5.25rem;
-}
-
-.play-again-container {
-  display: flex;
-  justify-content: center;
-}
-
-.play-again-btn {
-  margin-top: 1rem;
-  color: var(--primary-black-color);
-  background-color: var(--primary-white-color);
-  border: 3px var(--primary-black-color) solid;
-  border-radius: 1rem;
-  font-size: 1rem;
-  padding: 0.75rem 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.15s ease;
-}
-
-.play-again-btn:active {
-  transform: scale(0.98);
-}
-
-.play-again-btn:hover {
-  color: var(--primary-white-color);
-  background-color: var(--primary-black-color);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
 }

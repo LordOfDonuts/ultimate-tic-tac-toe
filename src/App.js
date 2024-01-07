@@ -2,13 +2,14 @@ import './App.css';
 
 import React, { useState } from 'react';
 
+import Score from './components/Score';
 import SmallGridItems from './components/SmallGridItems';
-
-import XGrid from './components/XGrid';
-import CircleGrid from './components/CircleGrid';
+import BigGridCross from './components/BigGridCross';
+import BigGridCircle from './components/BigGridCirle';
+import PlayAgainBtn from './components/PlayAgainBtn/PlayAgainBtn';
 
 function App() {
-  const startTurnsArray = [
+  const startSmallGridValues = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -20,8 +21,8 @@ function App() {
     [null, null, null, null, null, null, null, null, null],
   ];
 
-  const [turns, setTurns] = useState(startTurnsArray);
-  const [bigItems, setBigItems] = useState([
+  const [smallGridValues, setSmallGridValues] = useState(startSmallGridValues);
+  const [bigGridValues, setBigGridValues] = useState([
     null,
     null,
     null,
@@ -33,139 +34,130 @@ function App() {
     null,
   ]);
 
-  const [isXTurn, setIsXTurn] = useState(true);
-  const [xScore, setXScore] = useState(0);
+  const [isCrossTurn, setIsCrossTurn] = useState(true);
+  const [crossScore, setCrossScore] = useState(0);
   const [circleScore, setCircleScore] = useState(0);
 
   const winSmallGrid = (gridIndex, sign) => {
-    const newBigItems = bigItems;
+    const newBigItems = bigGridValues;
     newBigItems[gridIndex] = sign;
 
-    if (sign === 'x') setXScore(xScore + 1);
+    if (sign === 'x') setCrossScore(crossScore + 1);
     if (sign === 'o') setCircleScore(circleScore + 1);
 
-    setBigItems(newBigItems);
+    setBigGridValues(newBigItems);
   };
 
   const checkSmallGrid = (gridIndex) => {
     if (
-      turns[gridIndex][0] !== null &&
-      turns[gridIndex][0] === turns[gridIndex][1] &&
-      turns[gridIndex][1] === turns[gridIndex][2]
+      smallGridValues[gridIndex][0] !== null &&
+      smallGridValues[gridIndex][0] === smallGridValues[gridIndex][1] &&
+      smallGridValues[gridIndex][1] === smallGridValues[gridIndex][2]
     ) {
-      winSmallGrid(gridIndex, turns[gridIndex][0]);
+      winSmallGrid(gridIndex, smallGridValues[gridIndex][0]);
     } else if (
-      turns[gridIndex][0] != null &&
-      turns[gridIndex][0] === turns[gridIndex][3] &&
-      turns[gridIndex][3] === turns[gridIndex][6]
+      smallGridValues[gridIndex][0] != null &&
+      smallGridValues[gridIndex][0] === smallGridValues[gridIndex][3] &&
+      smallGridValues[gridIndex][3] === smallGridValues[gridIndex][6]
     ) {
-      winSmallGrid(gridIndex, turns[gridIndex][0]);
+      winSmallGrid(gridIndex, smallGridValues[gridIndex][0]);
     } else if (
-      turns[gridIndex][1] !== null &&
-      turns[gridIndex][1] === turns[gridIndex][4] &&
-      turns[gridIndex][4] === turns[gridIndex][7]
+      smallGridValues[gridIndex][1] !== null &&
+      smallGridValues[gridIndex][1] === smallGridValues[gridIndex][4] &&
+      smallGridValues[gridIndex][4] === smallGridValues[gridIndex][7]
     ) {
-      winSmallGrid(gridIndex, turns[gridIndex][1]);
+      winSmallGrid(gridIndex, smallGridValues[gridIndex][1]);
     } else if (
-      turns[gridIndex][2] !== null &&
-      turns[gridIndex][2] === turns[gridIndex][5] &&
-      turns[gridIndex][5] === turns[gridIndex][8]
+      smallGridValues[gridIndex][2] !== null &&
+      smallGridValues[gridIndex][2] === smallGridValues[gridIndex][5] &&
+      smallGridValues[gridIndex][5] === smallGridValues[gridIndex][8]
     ) {
-      winSmallGrid(gridIndex, turns[gridIndex][2]);
+      winSmallGrid(gridIndex, smallGridValues[gridIndex][2]);
     } else if (
-      turns[gridIndex][3] !== null &&
-      turns[gridIndex][3] === turns[gridIndex][4] &&
-      turns[gridIndex][4] === turns[gridIndex][5]
+      smallGridValues[gridIndex][3] !== null &&
+      smallGridValues[gridIndex][3] === smallGridValues[gridIndex][4] &&
+      smallGridValues[gridIndex][4] === smallGridValues[gridIndex][5]
     ) {
-      winSmallGrid(gridIndex, turns[gridIndex][3]);
+      winSmallGrid(gridIndex, smallGridValues[gridIndex][3]);
     } else if (
-      turns[gridIndex][6] !== null &&
-      turns[gridIndex][6] === turns[gridIndex][7] &&
-      turns[gridIndex][7] === turns[gridIndex][8]
+      smallGridValues[gridIndex][6] !== null &&
+      smallGridValues[gridIndex][6] === smallGridValues[gridIndex][7] &&
+      smallGridValues[gridIndex][7] === smallGridValues[gridIndex][8]
     ) {
-      winSmallGrid(gridIndex, turns[gridIndex][6]);
+      winSmallGrid(gridIndex, smallGridValues[gridIndex][6]);
     } else if (
-      turns[gridIndex][0] !== null &&
-      turns[gridIndex][0] === turns[gridIndex][4] &&
-      turns[gridIndex][4] === turns[gridIndex][8]
+      smallGridValues[gridIndex][0] !== null &&
+      smallGridValues[gridIndex][0] === smallGridValues[gridIndex][4] &&
+      smallGridValues[gridIndex][4] === smallGridValues[gridIndex][8]
     ) {
-      winSmallGrid(gridIndex, turns[gridIndex][0]);
+      winSmallGrid(gridIndex, smallGridValues[gridIndex][0]);
     } else if (
-      turns[gridIndex][2] !== null &&
-      turns[gridIndex][2] === turns[gridIndex][4] &&
-      turns[gridIndex][4] === turns[gridIndex][6]
+      smallGridValues[gridIndex][2] !== null &&
+      smallGridValues[gridIndex][2] === smallGridValues[gridIndex][4] &&
+      smallGridValues[gridIndex][4] === smallGridValues[gridIndex][6]
     ) {
-      winSmallGrid(gridIndex, turns[gridIndex][2]);
+      winSmallGrid(gridIndex, smallGridValues[gridIndex][2]);
     }
   };
 
   const setTurn = (gridIndex, itemIndex) => {
-    if (turns[gridIndex][itemIndex] != null) return;
+    if (smallGridValues[gridIndex][itemIndex] != null) return;
 
-    const newTurns = turns;
+    const newTurns = smallGridValues;
 
-    if (isXTurn) {
-      newTurns[gridIndex][itemIndex] = 'x';
-      setIsXTurn(false);
+    if (isCrossTurn) {
+      newTurns[gridIndex][itemIndex] = 'cross';
+      setIsCrossTurn(false);
     } else {
-      newTurns[gridIndex][itemIndex] = 'o';
+      newTurns[gridIndex][itemIndex] = 'circle';
     }
 
     checkSmallGrid(gridIndex);
-    setIsXTurn(!isXTurn);
-    setTurns(newTurns);
+    setIsCrossTurn(!isCrossTurn);
+    setSmallGridValues(newTurns);
   };
 
-  const resetTurns = () => {
-    setTurns(startTurnsArray);
-    setBigItems([null, null, null, null, null, null, null, null, null]);
-    setIsXTurn(true);
+  const restartGame = () => {
+    setSmallGridValues(startSmallGridValues);
+    setBigGridValues([null, null, null, null, null, null, null, null, null]);
+    setIsCrossTurn(true);
     setCircleScore(0);
-    setXScore(0);
+    setCrossScore(0);
   };
 
   return (
     <>
-      <h1>Ultimate Tic-Tac-Toe</h1>
+      <h1 className='game-title'>Ultimate Tic-Tac-Toe</h1>
       <div className='game-container'>
         <div>
-          <div className='score'>
-            <div
-              className={`score-side x-side ${isXTurn ? 'active-side' : ''}`}
-            >
-              X: {xScore}
-            </div>
-            <div
-              className={`score-side o-side ${isXTurn ? '' : 'active-side'}`}
-            >
-              O: {circleScore}
-            </div>
-          </div>
-          <div className='general-grid'>
-            {turns.map((grid, gridIndex) => {
+          <Score
+            isCrossTurn={isCrossTurn}
+            crossScore={crossScore}
+            circleScore={circleScore}
+          />
+          <div className='big-grid'>
+            {smallGridValues.map((grid, gridIndex) => {
               return (
                 <div
                   key={gridIndex}
-                  className={bigItems[gridIndex] === null ? 'small-grid' : ''}
+                  className={
+                    bigGridValues[gridIndex] === null ? 'small-grid' : ''
+                  }
                 >
-                  {bigItems[gridIndex] === null && (
+                  {bigGridValues[gridIndex] === null && (
                     <SmallGridItems
                       grid={grid}
                       gridIndex={gridIndex}
                       setTurn={setTurn}
                     />
                   )}
-                  {bigItems[gridIndex] === 'x' && <XGrid />}
-                  {bigItems[gridIndex] === 'o' && <CircleGrid />}
+                  {bigGridValues[gridIndex] === 'cross' && <BigGridCross />}
+                  {bigGridValues[gridIndex] === 'circle' && <BigGridCircle />}
                 </div>
               );
             })}
           </div>
-          <div className='play-again-container'>
-            <button className='play-again-btn' onClick={resetTurns}>
-              Play Again
-            </button>
-          </div>
+          <PlayAgainBtn onClick={restartGame} />
         </div>
       </div>
     </>

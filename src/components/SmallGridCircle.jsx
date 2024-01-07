@@ -1,6 +1,6 @@
 import { FiCircle } from 'react-icons/fi';
 
-function CircleCell() {
+function SmallGridCircle() {
   return (
     <div className='turn-on-board circle-on-board'>
       <FiCircle />
@@ -8,4 +8,4 @@ function CircleCell() {
   );
 }
 
-export default CircleCell;
+export default SmallGridCircle;
