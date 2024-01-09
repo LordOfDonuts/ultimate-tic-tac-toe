@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Score = ({ isCrossTurn, crossScore, circleScore }) => {
+const Score = ({ isCrossTurn, crossScore, circleScore, isGameOver }) => {
   return (
-    <div className='score'>
+    <div className={`score ${isGameOver ? '' : 'score-active'}`}>
       <div
         className={`score-side cross-score-side ${isCrossTurn ? 'active-side' : ''}`}
       >

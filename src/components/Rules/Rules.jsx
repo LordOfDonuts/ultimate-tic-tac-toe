@@ -30,7 +30,7 @@ const Rules = () => {
           </li>
           <li>Each win on a small field earns you +1 point.</li>
           <li>Winning on the large field grants you +3 points.</li>
-          <li>The game concludes when no fields remain empty.</li>
+          <li>The game concludes when a player wins a large field or there are no fields left.</li>
         </ul>
         <div className='rules-close rules-btn' onClick={changeIsOpened}>
           <FaArrowLeft />

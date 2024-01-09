@@ -39,25 +39,48 @@ function App() {
   const [bigGridValues, setBigGridValues] = useState(startBigGridValues);
 
   const [isCrossTurn, setIsCrossTurn] = useState(true);
+  const [isGameOver, setIsGameOver] = useState(false);
 
   const [crossScore, setCrossScore] = useState(0);
   const [circleScore, setCircleScore] = useState(0);
 
-  const win = (sign) => {
+  const checkGameOver = () => {
+    for (let i = 0; i < bigGridValues.length; i++) {
+      for (let j = 0; j < smallGridValues[i].length; j++) {
+        if (bigGridValues[i] !== null) break;
+        if (smallGridValues[i][j] == null) return;
+      }
+    }
+
+    win();
+  };
+
+  const win = (newCrossScore = crossScore, newCircleScore = circleScore) => {
+    setIsGameOver(true);
     const jsConfetti = new JSConfetti();
-    const confettiColor =
-      sign === 'cross' ? 'rgb(239,64,64)' : 'rgb(53,89,224)';
+    let confettiColor = '#65B741';
+
+    if (crossScore > circleScore) {
+      confettiColor = 'rgb(239,64,64)';
+    } else if (crossScore < circleScore) {
+      confettiColor = 'rgb(53,89,224)';
+    }
+
     jsConfetti.addConfetti({
       confettiColors: [confettiColor],
       confettiRadius: 6,
       confettiNumber: 500,
     });
+  };
 
+  const bigGridTaken = (sign) => {
     if (sign === 'cross') {
       setCrossScore(crossScore + 3);
     } else {
       setCircleScore(circleScore + 3);
     }
+
+    setIsGameOver(true);
   };
 
   const checkBigGrid = () => {
@@ -66,49 +89,49 @@ function App() {
       bigGridValues[0] === bigGridValues[1] &&
       bigGridValues[1] === bigGridValues[2]
     ) {
-      win(bigGridValues[0]);
+      bigGridTaken(bigGridValues[0]);
     } else if (
       bigGridValues[0] != null &&
       bigGridValues[0] === bigGridValues[3] &&
       bigGridValues[3] === bigGridValues[6]
     ) {
-      win(bigGridValues[0]);
+      bigGridTaken(bigGridValues[0]);
     } else if (
       bigGridValues[1] !== null &&
       bigGridValues[1] === bigGridValues[4] &&
       bigGridValues[4] === bigGridValues[7]
     ) {
-      win(bigGridValues[1]);
+      bigGridTaken(bigGridValues[1]);
     } else if (
       bigGridValues[2] !== null &&
       bigGridValues[2] === bigGridValues[5] &&
       bigGridValues[5] === bigGridValues[8]
     ) {
-      win(bigGridValues[2]);
+      bigGridTaken(bigGridValues[2]);
     } else if (
       bigGridValues[3] !== null &&
       bigGridValues[3] === bigGridValues[4] &&
       bigGridValues[4] === bigGridValues[5]
     ) {
-      win(bigGridValues[3]);
+      bigGridTaken(bigGridValues[3]);
     } else if (
       bigGridValues[6] !== null &&
       bigGridValues[6] === bigGridValues[7] &&
       bigGridValues[7] === bigGridValues[8]
     ) {
-      win(bigGridValues[6]);
+      bigGridTaken(bigGridValues[6]);
     } else if (
       bigGridValues[0] !== null &&
       bigGridValues[0] === bigGridValues[4] &&
       bigGridValues[4] === bigGridValues[8]
     ) {
-      win(bigGridValues[0]);
+      bigGridTaken(bigGridValues[0]);
     } else if (
       bigGridValues[2] !== null &&
       bigGridValues[2] === bigGridValues[4] &&
       bigGridValues[4] === bigGridValues[6]
     ) {
-      win(bigGridValues[2]);
+      bigGridTaken(bigGridValues[2]);
     }
   };
 
@@ -179,7 +202,7 @@ function App() {
   };
 
   const changeSmallGridValue = (gridIndex, itemIndex) => {
-    if (smallGridValues[gridIndex][itemIndex] != null) return;
+    if (smallGridValues[gridIndex][itemIndex] != null || isGameOver) return;
 
     const newSmallGridValues = smallGridValues;
 
@@ -193,12 +216,14 @@ function App() {
     checkSmallGrid(gridIndex);
     setIsCrossTurn(!isCrossTurn);
     setSmallGridValues(newSmallGridValues);
+    checkGameOver();
   };
 
   const restartGame = () => {
     setSmallGridValues(startSmallGridValues);
     setBigGridValues(startBigGridValues);
 
+    setIsGameOver(false);
     setIsCrossTurn(true);
     setCircleScore(0);
     setCrossScore(0);
@@ -214,8 +239,9 @@ function App() {
             isCrossTurn={isCrossTurn}
             crossScore={crossScore}
             circleScore={circleScore}
+            isGameOver={isGameOver}
           />
-          <div className='big-grid'>
+          <div className={`big-grid ${isGameOver ? 'game-over' : ''}`}>
             {smallGridValues.map((grid, gridIndex) => {
               return (
                 <div

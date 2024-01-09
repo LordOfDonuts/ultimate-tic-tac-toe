@@ -34,7 +34,7 @@
   background-color: rgba(239, 64, 64, 0.1);
 }
 
-.cross-score-side.active-side {
+.score-active .cross-score-side.active-side {
   border-bottom: var(--primary-red-color) 4px solid;
 }
 
@@ -46,7 +46,7 @@
   text-align: right;
 }
 
-.circle-score-side.active-side {
+.score-active .circle-score-side.active-side {
   border-bottom: var(--primary-blue-color) 4px solid;
 }
 
@@ -60,6 +60,10 @@
   border-radius: 1rem;
 }
 
+.big-grid.game-over .small-grid {
+  opacity: 0.4;
+}
+
 .small-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -68,6 +72,7 @@
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 0.25rem;
   position: relative;
+  transition: opacity 0.3s ease;
 }
 
 .small-grid-cell {
