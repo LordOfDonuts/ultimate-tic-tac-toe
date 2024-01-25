@@ -2,7 +2,7 @@ import { ImCross } from 'react-icons/im';
 
 function SmallGridCross() {
   return (
-    <div className='turn-on-board x-on-board'>
+    <div className='turn-on-board cross-on-board'>
       <ImCross/>
     </div>
   )

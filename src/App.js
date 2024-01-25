@@ -11,29 +11,24 @@ import BigGridCircle from './components/BigGridCirle';
 import PlayAgainBtn from './components/PlayAgainBtn/PlayAgainBtn';
 
 function App() {
-  const startSmallGridValues = [
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
+  const startSmallGridValues = Array.from({ length: 9 }, () =>
+    Array(9).fill(null)
+  );
+
+  const startBigGridValues = Array(9).fill(null);
+
+  const winMatches = [
+    [0, 1, 2],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 4, 8],
+    [2, 4, 6],
   ];
 
-  const startBigGridValues = [
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-  ];
+  const [winCombination, setWinCombination] = useState(Array(3).fill(null));
 
   const [smallGridValues, setSmallGridValues] = useState(startSmallGridValues);
   const [bigGridValues, setBigGridValues] = useState(startBigGridValues);
@@ -44,162 +39,8 @@ function App() {
   const [crossScore, setCrossScore] = useState(0);
   const [circleScore, setCircleScore] = useState(0);
 
-  const checkGameOver = () => {
-    for (let i = 0; i < bigGridValues.length; i++) {
-      for (let j = 0; j < smallGridValues[i].length; j++) {
-        if (bigGridValues[i] !== null) break;
-        if (smallGridValues[i][j] == null) return;
-      }
-    }
-
-    win();
-  };
-
-  const win = (newCrossScore = crossScore, newCircleScore = circleScore) => {
-    setIsGameOver(true);
-    const jsConfetti = new JSConfetti();
-    let confettiColor = '#65B741';
-
-    if (crossScore > circleScore) {
-      confettiColor = 'rgb(239,64,64)';
-    } else if (crossScore < circleScore) {
-      confettiColor = 'rgb(53,89,224)';
-    }
-
-    jsConfetti.addConfetti({
-      confettiColors: [confettiColor],
-      confettiRadius: 6,
-      confettiNumber: 500,
-    });
-  };
-
-  const bigGridTaken = (sign) => {
-    if (sign === 'cross') {
-      setCrossScore(crossScore + 3);
-    } else {
-      setCircleScore(circleScore + 3);
-    }
-
-    setIsGameOver(true);
-  };
-
-  const checkBigGrid = () => {
-    if (
-      bigGridValues[0] !== null &&
-      bigGridValues[0] === bigGridValues[1] &&
-      bigGridValues[1] === bigGridValues[2]
-    ) {
-      bigGridTaken(bigGridValues[0]);
-    } else if (
-      bigGridValues[0] != null &&
-      bigGridValues[0] === bigGridValues[3] &&
-      bigGridValues[3] === bigGridValues[6]
-    ) {
-      bigGridTaken(bigGridValues[0]);
-    } else if (
-      bigGridValues[1] !== null &&
-      bigGridValues[1] === bigGridValues[4] &&
-      bigGridValues[4] === bigGridValues[7]
-    ) {
-      bigGridTaken(bigGridValues[1]);
-    } else if (
-      bigGridValues[2] !== null &&
-      bigGridValues[2] === bigGridValues[5] &&
-      bigGridValues[5] === bigGridValues[8]
-    ) {
-      bigGridTaken(bigGridValues[2]);
-    } else if (
-      bigGridValues[3] !== null &&
-      bigGridValues[3] === bigGridValues[4] &&
-      bigGridValues[4] === bigGridValues[5]
-    ) {
-      bigGridTaken(bigGridValues[3]);
-    } else if (
-      bigGridValues[6] !== null &&
-      bigGridValues[6] === bigGridValues[7] &&
-      bigGridValues[7] === bigGridValues[8]
-    ) {
-      bigGridTaken(bigGridValues[6]);
-    } else if (
-      bigGridValues[0] !== null &&
-      bigGridValues[0] === bigGridValues[4] &&
-      bigGridValues[4] === bigGridValues[8]
-    ) {
-      bigGridTaken(bigGridValues[0]);
-    } else if (
-      bigGridValues[2] !== null &&
-      bigGridValues[2] === bigGridValues[4] &&
-      bigGridValues[4] === bigGridValues[6]
-    ) {
-      bigGridTaken(bigGridValues[2]);
-    }
-  };
-
-  const changeBigGridValue = (gridIndex, sign) => {
-    const newBigGridValues = bigGridValues;
-    newBigGridValues[gridIndex] = sign;
-
-    if (sign === 'cross') setCrossScore(crossScore + 1);
-    if (sign === 'circle') setCircleScore(circleScore + 1);
-
-    setBigGridValues(newBigGridValues);
-
-    checkBigGrid();
-  };
-
-  const checkSmallGrid = (gridIndex) => {
-    const currentGridValues = smallGridValues[gridIndex];
-
-    if (
-      currentGridValues[0] !== null &&
-      currentGridValues[0] === currentGridValues[1] &&
-      currentGridValues[1] === currentGridValues[2]
-    ) {
-      changeBigGridValue(gridIndex, currentGridValues[0]);
-    } else if (
-      currentGridValues[0] != null &&
-      currentGridValues[0] === currentGridValues[3] &&
-      currentGridValues[3] === currentGridValues[6]
-    ) {
-      changeBigGridValue(gridIndex, currentGridValues[0]);
-    } else if (
-      currentGridValues[1] !== null &&
-      currentGridValues[1] === currentGridValues[4] &&
-      currentGridValues[4] === currentGridValues[7]
-    ) {
-      changeBigGridValue(gridIndex, currentGridValues[1]);
-    } else if (
-      currentGridValues[2] !== null &&
-      currentGridValues[2] === currentGridValues[5] &&
-      currentGridValues[5] === currentGridValues[8]
-    ) {
-      changeBigGridValue(gridIndex, currentGridValues[2]);
-    } else if (
-      currentGridValues[3] !== null &&
-      currentGridValues[3] === currentGridValues[4] &&
-      currentGridValues[4] === currentGridValues[5]
-    ) {
-      changeBigGridValue(gridIndex, currentGridValues[3]);
-    } else if (
-      currentGridValues[6] !== null &&
-      currentGridValues[6] === currentGridValues[7] &&
-      currentGridValues[7] === currentGridValues[8]
-    ) {
-      changeBigGridValue(gridIndex, currentGridValues[6]);
-    } else if (
-      currentGridValues[0] !== null &&
-      currentGridValues[0] === currentGridValues[4] &&
-      currentGridValues[4] === currentGridValues[8]
-    ) {
-      changeBigGridValue(gridIndex, currentGridValues[0]);
-    } else if (
-      currentGridValues[2] !== null &&
-      currentGridValues[2] === currentGridValues[4] &&
-      currentGridValues[4] === currentGridValues[6]
-    ) {
-      changeBigGridValue(gridIndex, currentGridValues[2]);
-    }
-  };
+  let newCrossScore = crossScore;
+  let newCircleScore = circleScore;
 
   const changeSmallGridValue = (gridIndex, itemIndex) => {
     if (smallGridValues[gridIndex][itemIndex] != null || isGameOver) return;
@@ -208,7 +49,6 @@ function App() {
 
     if (isCrossTurn) {
       newSmallGridValues[gridIndex][itemIndex] = 'cross';
-      setIsCrossTurn(false);
     } else {
       newSmallGridValues[gridIndex][itemIndex] = 'circle';
     }
@@ -219,6 +59,87 @@ function App() {
     checkGameOver();
   };
 
+  const checkSmallGrid = (gridIndex) => {
+    const currentGridValues = smallGridValues[gridIndex];
+
+    for (let i = 0; i < winMatches.length; i++) {
+      const firstCellIndex = winMatches[i][0];
+      const secondCellIndex = winMatches[i][1];
+      const thirdCellIndex = winMatches[i][2];
+
+      if (
+        currentGridValues[firstCellIndex] !== null &&
+        currentGridValues[firstCellIndex] ===
+          currentGridValues[secondCellIndex] &&
+        currentGridValues[secondCellIndex] === currentGridValues[thirdCellIndex]
+      ) {
+        changeBigGridValue(gridIndex, currentGridValues[firstCellIndex]);
+      }
+    }
+  };
+
+  const changeBigGridValue = (gridIndex, sign) => {
+    const newBigGridValues = bigGridValues;
+    newBigGridValues[gridIndex] = sign;
+    setBigGridValues(newBigGridValues);
+
+    if (sign === 'cross') {
+      newCrossScore++;
+      setCrossScore(newCrossScore);
+    } else {
+      newCircleScore++;
+      setCircleScore(newCircleScore);
+    }
+
+    checkBigGrid();
+  };
+
+  const checkBigGrid = () => {
+    for (let i = 0; i < winMatches.length; i++) {
+      const firstCellIndex = winMatches[i][0];
+      const secondCellIndex = winMatches[i][1];
+      const thirdCellIndex = winMatches[i][2];
+
+      if (
+        bigGridValues[firstCellIndex] !== null &&
+        bigGridValues[firstCellIndex] === bigGridValues[secondCellIndex] &&
+        bigGridValues[secondCellIndex] === bigGridValues[thirdCellIndex]
+      ) {
+        setWinCombination([
+          firstCellIndex,
+          secondCellIndex,
+          thirdCellIndex,
+        ]);
+
+        bigGridWin(bigGridValues[firstCellIndex]);
+      }
+    }
+  };
+
+  const bigGridWin = (sign) => {
+    if (sign === 'cross') {
+      newCrossScore += 3;
+      setCrossScore(newCrossScore);
+    } else {
+      newCircleScore += 3;
+      setCircleScore(newCircleScore);
+    }
+
+    winConfetti();
+    setIsGameOver(true);
+  };
+
+  const checkGameOver = () => {
+    for (let i = 0; i < bigGridValues.length; i++) {
+      for (let j = 0; j < smallGridValues[i].length; j++) {
+        if (bigGridValues[i] !== null) break;
+        if (smallGridValues[i][j] == null) return;
+      }
+    }
+
+    setIsGameOver(true);
+  };
+
   const restartGame = () => {
     setSmallGridValues(startSmallGridValues);
     setBigGridValues(startBigGridValues);
@@ -227,6 +148,25 @@ function App() {
     setIsCrossTurn(true);
     setCircleScore(0);
     setCrossScore(0);
+  };
+
+  const winConfetti = () => {
+    if (newCrossScore === newCircleScore) return;
+
+    const jsConfetti = new JSConfetti();
+    let confettiColor = '';
+
+    if (newCrossScore > newCircleScore) {
+      confettiColor = '#ef4040';
+    } else {
+      confettiColor = '#3559E0';
+    }
+
+    jsConfetti.addConfetti({
+      confettiColors: [confettiColor],
+      confettiRadius: 8,
+      confettiNumber: 150,
+    });
   };
 
   return (
@@ -241,7 +181,9 @@ function App() {
             circleScore={circleScore}
             isGameOver={isGameOver}
           />
-          <div className={`big-grid ${isGameOver ? 'game-over' : ''}`}>
+          <div
+            className={`big-grid ${isGameOver ? 'game-over' : 'game-not-over'}`}
+          >
             {smallGridValues.map((grid, gridIndex) => {
               return (
                 <div
@@ -263,9 +205,9 @@ function App() {
               );
             })}
           </div>
-          <PlayAgainBtn onClick={restartGame} />
         </div>
       </div>
+      <PlayAgainBtn onClick={restartGame} />
     </>
   );
 }

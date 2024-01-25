@@ -28,3 +28,12 @@
   background-color: var(--primary-black-color);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
 }
+
+@media (max-height: 730px) {
+  .play-again-container {
+    transform: unset;
+    left: unset;
+    right: 1.5rem;
+    bottom: 1.5rem;
+  }
+}

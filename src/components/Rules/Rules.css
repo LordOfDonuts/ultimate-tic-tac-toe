@@ -1,11 +1,7 @@
 .rules-open {
   position: absolute;
   left: 1.5rem;
-  top: 1.5rem;
-}
-
-.rules-container {
-  position: relative;
+  bottom: 1.5rem;
 }
 
 .rules-title {
@@ -15,21 +11,20 @@
 }
 
 .rules-close {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 1.5rem;
+  margin: 1.5rem;
 }
 
 .rules-description {
   position: absolute;
   background-color: var(--primary-white-color);
-  left: -40%;
-  width: 40vw;
+  left: -600px;
+  width: 600px;
   height: 100vh;
   z-index: 5;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
   border-right: 3px solid var(--primary-black-color);
   transition: left 0.65s ease-out;
+  overflow: scroll;
 }
 
 .rules-list {
@@ -53,7 +48,8 @@
 }
 
 .rules-image {
-  width: 70%;
+  width: 55%;
+  max-width: 400px;
   border-radius: 1rem;
 }
 
@@ -78,4 +74,11 @@
   color: var(--primary-white-color);
   background-color: var(--primary-black-color);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 800px) {
+  .rules-description {
+    left: -100%;
+    width: 100vw;
+  }
 }
