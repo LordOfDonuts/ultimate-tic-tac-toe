@@ -1,0 +1,47 @@
+.rules {
+  position: absolute;
+  color: var(--primary-white);
+  background-color: var(--primary-black);
+  box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.2);
+  right: 0;
+  transform: translateX(110%);
+  width: 500px;
+  height: 100vh;
+  padding: 2rem;
+  transition: 0.4s ease;
+}
+
+.rules.open {
+  transform: translateX(0);
+}
+
+.rules h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.rules p {
+  line-height: 2rem;
+}
+
+.open-rules-btn, .close-rules-btn {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  color: var(--primary-white);
+  background-color: var(--primary-black);
+  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  padding: 1rem;
+  border-radius: 5rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.open-rules-btn:hover, close-rules-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.2);
+}
