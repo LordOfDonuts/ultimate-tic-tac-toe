@@ -49,3 +49,13 @@
 .score.game-over.cross-win .cross-bar {
   border: 10px var(--primary-red) solid;
 }
+
+@media (max-height: 745px) {
+  .score-bar {
+    height: 50px;
+  }
+
+  .score {
+    margin-bottom: 1rem;
+  }
+}

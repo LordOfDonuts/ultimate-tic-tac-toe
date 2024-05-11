@@ -8,8 +8,13 @@
   width: 500px;
   height: 100vh;
   padding: 2rem;
-  transition: 0.4s ease;
+  transition: transform 0.4s ease;
   z-index: 5;
+}
+
+.rules img {
+  width: 100%;
+  border-radius: 0.5rem;
 }
 
 .rules.open {
@@ -23,6 +28,7 @@
 
 .rules p {
   line-height: 2rem;
+  margin-bottom: 2rem;
 }
 
 .open-rules-btn, .close-rules-btn {
@@ -45,4 +51,10 @@
 .open-rules-btn:hover, .close-rules-btn:hover {
   transform: scale(1.03);
   box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 630px) {
+  .rules {
+    width: 100vw;
+  }
 }
