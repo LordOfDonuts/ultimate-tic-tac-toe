@@ -2,9 +2,13 @@ import './Score.css';
 
 import React from 'react';
 
-const Score = ({ isCrossTurn, circleScore, crossScore }) => {
+const Score = ({ isCrossTurn, circleScore, crossScore, isGameOver }) => {
   return (
-    <div className='score'>
+    <div
+      className={`score ${isGameOver ? 'game-over' : 'active'} ${
+        circleScore > crossScore ? 'circle-win' : ''
+      } ${circleScore < crossScore ? 'cross-win' : ''}`}
+    >
       <div className={`score-bar circle-bar ${isCrossTurn ? '' : 'active'}`}>
         <p>O: {circleScore}</p>
       </div>

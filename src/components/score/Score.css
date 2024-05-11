@@ -24,8 +24,16 @@
   background-color: rgba(55, 140, 231, 0.15);
 }
 
-.circle-bar.active {
+.score.active .circle-bar.active {
   border-left: 10px var(--primary-blue) solid;
+}
+
+.score.game-over.circle-win .circle-bar {
+  border: 10px var(--primary-blue) solid;
+}
+
+.score.game-over.circle-win .circle-bar {
+  border: 10px var(--primary-blue) solid;
 }
 
 .cross-bar {
@@ -34,6 +42,10 @@
   background-color: rgba(255, 0, 77, 0.15);
 }
 
-.cross-bar.active {
+.score.active .cross-bar.active {
   border-right: 10px var(--primary-red) solid;
+}
+
+.score.game-over.cross-win .cross-bar {
+  border: 10px var(--primary-red) solid;
 }

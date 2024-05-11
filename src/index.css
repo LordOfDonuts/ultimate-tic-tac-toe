@@ -1,11 +1,13 @@
 :root {
-  --primary-red: #FF004D;
-  --primary-blue: #378CE7;
+  --primary-red: #ff004d;
+  --primary-blue: #378ce7;
   --primary-black: #141414;
-  --primary-white: #F6F6F6;
+  --primary-white: #f6f6f6;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -18,7 +20,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 code {

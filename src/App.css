@@ -2,6 +2,7 @@ h1 {
   text-align: center;
   padding-top: 1rem;
   padding-bottom: 1.5rem;
+  color: var(--primary-black);
 }
 
 .grid-big {
@@ -87,7 +88,7 @@ h1 {
 }
 
 .reset-button {
-  position: absolute;
+  position: fixed;
   bottom: 1.5rem;
   left: 1.5rem;
   color: var(--primary-white);

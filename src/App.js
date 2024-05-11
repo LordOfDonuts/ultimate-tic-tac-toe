@@ -2,14 +2,18 @@ import './App.css';
 
 import Score from './components/score/Score';
 import Rules from './components/open-rules-button/Rules';
+import ResetButton from './components/reset-button/ResetButton';
 
 import { useState } from 'react';
+import JSConfetti from 'js-confetti';
 
 import { ImCross } from 'react-icons/im';
 import { FaCircleDot } from 'react-icons/fa6';
-import ResetButton from './components/reset-button/ResetButton';
 
 function App() {
+  const jsConfetti = new JSConfetti();
+
+  const [isGameOver, setIsGameOver] = useState(false);
   const [isCrossTurn, setIsCrossTurn] = useState(false);
   const [crossScore, setCrossScore] = useState(0);
   const [circleScore, setCircleScore] = useState(0);
@@ -38,97 +42,225 @@ function App() {
     null,
   ]);
 
+  const checkWin = (bigGridSigns, smallGridSigns) => {
+    console.log(bigGridSigns);
+    console.log();
+    console.log(smallGridSigns);
+
+    for (let i = 0; i < 9; i++) {
+      if (bigGridSigns[i] !== null) continue;
+      const currentGrid = smallGridSigns[i];
+
+      for (let j = 0; j < 9; j++) {
+        if (currentGrid[j] === null) return;
+      }
+    }
+
+    setIsGameOver(true);
+  };
+
   const checkSmallGrid = (smallGrids) => {
+    const newBigGrids = [...bigGridCells];
+
     for (let i = 0; i < 9; i++) {
       if (bigGridCells[i] !== null) continue;
 
-      const currentGrid = smallGrids[i];
+      let newCrossScore = crossScore;
+      let newCircleScore = circleScore;
 
       // Check Rows
       for (let j = 0; j < 3; j++) {
-        if (currentGrid[j * 3] === null) continue;
+        if (smallGrids[i][j * 3] === null) continue;
         if (
-          currentGrid[j * 3] === currentGrid[j * 3 + 1] &&
-          currentGrid[j * 3] === currentGrid[j * 3 + 2]
+          smallGrids[i][j * 3] === smallGrids[i][j * 3 + 1] &&
+          smallGrids[i][j * 3] === smallGrids[i][j * 3 + 2]
         ) {
-          const newBigGrids = [...bigGridCells];
-
-          if (currentGrid[j * 3] === 'x') {
+          if (smallGrids[i][j * 3] === 'x') {
             newBigGrids[i] = 'x';
-            setCrossScore(crossScore + 1);
+            newCrossScore = crossScore + 1;
+            setCrossScore(newCrossScore);
           } else {
             newBigGrids[i] = 'o';
-            setCircleScore(circleScore + 1);
+            newCircleScore = circleScore + 1;
+            setCircleScore(newCircleScore);
           }
 
+          checkBigGrid(newBigGrids, newCrossScore, newCircleScore);
           setBigGridCells(newBigGrids);
         }
       }
 
       // Check Columns
       for (let j = 0; j < 3; j++) {
-        if (currentGrid[j] === null) continue;
+        if (smallGrids[i][j] === null) continue;
         if (
-          currentGrid[j] === currentGrid[j + 3] &&
-          currentGrid[j] === currentGrid[j + 6]
+          smallGrids[i][j] === smallGrids[i][j + 3] &&
+          smallGrids[i][j] === smallGrids[i][j + 6]
         ) {
-          const newBigGrids = [...bigGridCells];
-
-          if (currentGrid[j] === 'x') {
+          if (smallGrids[i][j] === 'x') {
             newBigGrids[i] = 'x';
-            setCrossScore(crossScore + 1);
+            newCrossScore = crossScore + 1;
+            setCrossScore(newCrossScore);
           } else {
             newBigGrids[i] = 'o';
-            setCircleScore(circleScore + 1);
+            newCircleScore = circleScore + 1;
+            setCircleScore(newCircleScore);
           }
 
+          checkBigGrid(newBigGrids, newCrossScore, newCircleScore);
           setBigGridCells(newBigGrids);
         }
       }
 
       // Check Oblique
-      if (currentGrid[0] !== null) {
+      if (smallGrids[i][0] !== null) {
         if (
-          currentGrid[0] === currentGrid[4] &&
-          currentGrid[0] === currentGrid[8]
+          smallGrids[i][0] === smallGrids[i][4] &&
+          smallGrids[i][0] === smallGrids[i][8]
         ) {
-          const newBigGrids = [...bigGridCells];
-
-          if (currentGrid[0] === 'x') {
+          if (smallGrids[i][0] === 'x') {
             newBigGrids[i] = 'x';
-            setCrossScore(crossScore + 1);
+            newCrossScore = crossScore + 1;
+            setCrossScore(newCrossScore);
           } else {
             newBigGrids[i] = 'o';
-            setCircleScore(circleScore + 1);
+            newCircleScore = circleScore + 1;
+            setCircleScore(newCircleScore);
           }
 
+          checkBigGrid(newBigGrids, newCrossScore, newCircleScore);
           setBigGridCells(newBigGrids);
         }
       }
 
-      if (currentGrid[2] !== null) {
+      if (smallGrids[i][2] !== null) {
         if (
-          currentGrid[2] === currentGrid[4] &&
-          currentGrid[2] === currentGrid[6]
+          smallGrids[i][2] === smallGrids[i][4] &&
+          smallGrids[i][2] === smallGrids[i][6]
         ) {
-          const newBigGrids = [...bigGridCells];
-
-          if (currentGrid[2] === 'x') {
+          if (smallGrids[i][2] === 'x') {
             newBigGrids[i] = 'x';
-            setCrossScore(crossScore + 1);
+            newCrossScore = crossScore + 1;
+            setCrossScore(newCrossScore);
           } else {
             newBigGrids[i] = 'o';
-            setCircleScore(circleScore + 1);
+            newCircleScore = circleScore + 1;
+            setCircleScore(newCircleScore);
           }
 
+          checkBigGrid(newBigGrids, newCrossScore, newCircleScore);
           setBigGridCells(newBigGrids);
         }
+      }
+    }
+
+    checkWin(newBigGrids, smallGrids);
+  };
+
+  const checkBigGrid = (smallGrids, newCrossScore, newCircleScore) => {
+    // Check Rows
+    for (let i = 0; i < 3; i++) {
+      if (smallGrids[i * 3] === null) continue;
+      if (
+        smallGrids[i * 3] === smallGrids[i * 3 + 1] &&
+        smallGrids[i * 3] === smallGrids[i * 3 + 2]
+      ) {
+        if (smallGrids[i * 3] === 'x') {
+          jsConfetti.addConfetti({
+            confettiColors: ['#ff004d'],
+            confettiRadius: 6,
+            confettiNumber: 500,
+          });
+          setCrossScore(newCrossScore + 3);
+        } else {
+          jsConfetti.addConfetti({
+            confettiColors: ['#378ce7'],
+            confettiRadius: 6,
+            confettiNumber: 500,
+          });
+          setCircleScore(newCircleScore + 3);
+        }
+
+        setIsGameOver(true);
+      }
+    }
+
+    // Check Columns
+    for (let i = 0; i < 3; i++) {
+      if (smallGrids[i] === null) continue;
+      if (
+        smallGrids[i] === smallGrids[i + 3] &&
+        smallGrids[i] === smallGrids[i + 6]
+      ) {
+        if (smallGrids[i] === 'x') {
+          jsConfetti.addConfetti({
+            confettiColors: ['#ff004d'],
+            confettiRadius: 6,
+            confettiNumber: 500,
+          });
+          setCrossScore(newCrossScore + 3);
+        } else {
+          jsConfetti.addConfetti({
+            confettiColors: ['#378ce7'],
+            confettiRadius: 6,
+            confettiNumber: 500,
+          });
+          setCircleScore(newCircleScore + 3);
+        }
+
+        setIsGameOver(true);
+      }
+    }
+
+    // Check Oblique
+    if (smallGrids[0] !== null) {
+      if (smallGrids[0] === smallGrids[4] && smallGrids[0] === smallGrids[8]) {
+        if (smallGrids[0] === 'x') {
+          jsConfetti.addConfetti({
+            confettiColors: ['#ff004d'],
+            confettiRadius: 6,
+            confettiNumber: 500,
+          });
+          setCrossScore(newCrossScore + 3);
+        } else {
+          jsConfetti.addConfetti({
+            confettiColors: ['#378ce7'],
+            confettiRadius: 6,
+            confettiNumber: 500,
+          });
+          setCircleScore(newCircleScore + 3);
+        }
+
+        setIsGameOver(true);
+      }
+    }
+
+    if (smallGrids[2] !== null) {
+      if (smallGrids[2] === smallGrids[4] && smallGrids[2] === smallGrids[6]) {
+        if (smallGrids[2] === 'x') {
+          jsConfetti.addConfetti({
+            confettiColors: ['#ff004d'],
+            confettiRadius: 6,
+            confettiNumber: 500,
+          });
+          setCrossScore(newCrossScore + 3);
+        } else {
+          jsConfetti.addConfetti({
+            confettiColors: ['#378ce7'],
+            confettiRadius: 6,
+            confettiNumber: 500,
+          });
+          setCircleScore(newCircleScore + 3);
+        }
+
+        setIsGameOver(true);
       }
     }
   };
 
   const resetGame = () => {
     setIsCrossTurn(false);
+    setIsGameOver(false);
     setCrossScore(0);
     setCircleScore(0);
 
@@ -155,6 +287,7 @@ function App() {
         isCrossTurn={isCrossTurn}
         circleScore={circleScore}
         crossScore={crossScore}
+        isGameOver={isGameOver}
       />
       <ul className='grid-big'>
         {smallGridCells.map((smallGrid, smallGridIndex) => {
@@ -162,7 +295,9 @@ function App() {
             <li
               key={smallGridIndex}
               className={`grid-small ${
-                bigGridCells[smallGridIndex] === null ? 'free' : ''
+                bigGridCells[smallGridIndex] === null && !isGameOver
+                  ? 'free'
+                  : ''
               }`}
             >
               <ul>
@@ -190,7 +325,8 @@ function App() {
                       onClick={() => {
                         if (
                           smallGridCells[smallGridIndex][cellIndex] !== null ||
-                          bigGridCells[smallGridIndex] !== null
+                          bigGridCells[smallGridIndex] !== null ||
+                          isGameOver
                         ) {
                           return;
                         }
