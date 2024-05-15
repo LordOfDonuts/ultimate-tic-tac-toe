@@ -1,7 +1,7 @@
 import './Rules.css';
 
 import { useState } from 'react';
-import ExamplePicture from '../../ExampleForRules.png';
+import ExamplePicture from '../../ExampleForRules.jpg';
 
 import { FaQuestion, FaArrowRight } from 'react-icons/fa';
 

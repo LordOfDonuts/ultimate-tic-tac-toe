@@ -4,4 +4,4 @@ This is a game like Tic Tac Toe but there are nine grids instead of just one. Wi
 
 I used HTML, CSS, JavaScript, and React to build this application.
 
-![alt text](./src/ExampleForRules.png)
+![alt text](./ReadmeExample.jpg)

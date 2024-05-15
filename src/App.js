@@ -1,7 +1,7 @@
 import './App.css';
 
 import Score from './components/score/Score';
-import Rules from './components/open-rules-button/Rules';
+import Rules from './components/Rules/Rules';
 import ResetButton from './components/reset-button/ResetButton';
 
 import { useState } from 'react';
